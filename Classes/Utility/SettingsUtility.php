@@ -44,8 +44,6 @@ use DWenzel\T3events\Resource\ResourceFactory;
  */
 class SettingsUtility implements SingletonInterface
 {
-    use ObjectManagerTrait;
-
     /**
      * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
@@ -156,9 +154,7 @@ class SettingsUtility implements SingletonInterface
      */
     public function getFileStorage(DomainObjectInterface $object, $config)
     {
-        $fileStorage = $this->objectManager->get(
-            ObjectStorage::class
-        );
+        $fileStorage = GeneralUtility::makeInstance(ObjectStorage::class);
         $valueFromSettings = $this->getValue($object, $config);
         // got ObjectStorage from field
         if ($valueFromSettings instanceof ObjectStorage) {

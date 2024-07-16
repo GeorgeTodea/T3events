@@ -33,7 +33,7 @@ use DWenzel\T3events\Domain\Model\Dto\OrderAwareDemandInterface;
  */
 abstract class AbstractDemandFactory
 {
-    use SkipPropertyTrait, MapPropertyTrait, ObjectManagerTrait;
+    use SkipPropertyTrait, MapPropertyTrait;
 
     /**
      * Properties which should be mapped when settings

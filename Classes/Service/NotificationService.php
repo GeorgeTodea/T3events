@@ -3,7 +3,6 @@ namespace DWenzel\T3events\Service;
 
 use DWenzel\T3events\Configuration\ConfigurationManagerTrait;
 use DWenzel\T3events\Domain\Model\Notification;
-use DWenzel\T3events\Object\ObjectManagerTrait;
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -18,7 +17,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class NotificationService
 {
-    use ConfigurationManagerTrait, ObjectManagerTrait;
+    use ConfigurationManagerTrait;
 
     /**
      * Notify using the given data
@@ -41,7 +40,7 @@ class NotificationService
         $recipient = GeneralUtility::trimExplode(',', $recipient, true);
 
         /** @var $message MailMessage */
-        $message = $this->objectManager->get(MailMessage::class);
+        $message = GeneralUtility::makeInstance(MailMessage::class);
         $message->setTo($recipient)
             ->setFrom($sender)
             ->setSubject($subject);
@@ -89,7 +88,7 @@ class NotificationService
     public function send(Notification $notification)
     {
         /** @var $message MailMessage */
-        $message = $this->objectManager->get(MailMessage::class);
+        $message = GeneralUtility::makeInstance(MailMessage::class);
         $recipients = GeneralUtility::trimExplode(',', $notification->getRecipient(), true);
 
         $message->setTo($recipients)
@@ -130,7 +129,7 @@ class NotificationService
     protected function buildTemplateView($templateName, $format = null, $folderName = null)
     {
         /** @var \TYPO3\CMS\Fluid\View\StandaloneView $emailView */
-        $emailView = $this->objectManager->get(StandaloneView::class);
+        $emailView = GeneralUtility::makeInstance(StandaloneView::class);
         $emailView->setTemplatePathAndFilename(
             $this->getTemplatePathAndFileName($templateName, $folderName)
         );

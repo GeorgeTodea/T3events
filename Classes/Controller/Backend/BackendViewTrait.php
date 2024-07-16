@@ -64,7 +64,7 @@ trait BackendViewTrait
     /**
      * @var Request
      */
-    protected $request;
+    protected \TYPO3\CMS\Extbase\Mvc\RequestInterface $request;
 
     /**
      * The current view, as resolved by resolveView()

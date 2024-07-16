@@ -267,4 +267,9 @@ class PerformanceController
         /** @var PerformanceDemand $demand */
         return $this->performanceDemandFactory->createFromSettings($settings);
     }
+
+    public function forward($actionName, $controllerName = null, $extensionName = null, array $arguments = null)
+    {
+        // TODO: Implement forward() method.
+    }
 }

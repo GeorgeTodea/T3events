@@ -148,4 +148,9 @@ class EventController extends ActionController
             $templateVariables
         );
     }
+
+    public function forward($actionName, $controllerName = null, $extensionName = null, array $arguments = null)
+    {
+        // TODO: Implement forward() method.
+    }
 }

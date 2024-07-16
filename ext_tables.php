@@ -1,5 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
+if (!defined('TYPO3')) {
     die('Access denied.');
 }
 
@@ -12,6 +12,6 @@ require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(\DWenze
 \DWenzel\T3events\Configuration\ExtensionConfiguration::configureTables();
 
 // enable event module
-if (TYPO3_MODE === 'BE' && (bool)$emSettings['showEventModule']) {
+if (TYPO3 === 'BE' && (bool)$emSettings['showEventModule']) {
     \DWenzel\T3events\Configuration\ExtensionConfiguration::registerAndConfigureModules();
 }

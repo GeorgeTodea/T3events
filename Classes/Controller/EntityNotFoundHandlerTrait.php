@@ -36,7 +36,7 @@ trait EntityNotFoundHandlerTrait
      *
      * @var \TYPO3\CMS\Extbase\Mvc\Request
      */
-    protected $request;
+    protected RequestInterface $request;
 
     /**
      * @var array
