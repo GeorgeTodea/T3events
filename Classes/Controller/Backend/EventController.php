@@ -155,4 +155,9 @@ class EventController extends AbstractBackendController implements FilterableCon
     {
         return $this->configurationManager;
     }
+
+    public function forward($actionName, $controllerName = null, $extensionName = null, array $arguments = null)
+    {
+        // TODO: Implement forward() method.
+    }
 }
