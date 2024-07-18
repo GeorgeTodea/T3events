@@ -16,6 +16,7 @@ use DWenzel\T3events\Domain\Model\Dto\SearchAwareDemandInterface;
 use DWenzel\T3events\UnsupportedMethodException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
@@ -136,7 +137,7 @@ trait DemandedRepositoryTrait
 
         if (!empty($constraints)) {
             $query->matching(
-                $query->logicalAnd($constraints)
+                $query->logicalAnd(...$constraints)
             );
         }
 
@@ -166,7 +167,7 @@ trait DemandedRepositoryTrait
      *
      * @param \TYPO3\CMS\Extbase\Persistence\QueryInterface $query
      * @param array<\TYPO3\CMS\Extbase\Persistence\Generic\Qom\Constraint> $constraints
-     * @param array<\TYPO3\CMS\Extbase\Persistence\Generic\Qom\Constraint> $additionalConstraints
+     * @param array<\TYPO3\CMS\Extbase\Persistence\Generic\Qom\ConstraintInterface> $additionalConstraints
      * @param string $conjunction
      */
     public function combineConstraints(QueryInterface $query, &$constraints, $additionalConstraints, $conjunction = null)
@@ -174,20 +175,22 @@ trait DemandedRepositoryTrait
         if (count($additionalConstraints)) {
             switch (strtolower($conjunction)) {
                 case 'or':
-                    $constraints[] = $query->logicalOr($additionalConstraints);
+                    $constraints[] = $query->logicalOr(...$additionalConstraints);
                     break;
                 case 'notand':
+                    /** @var ConstraintInterface $additionalConstraint */
                     foreach ($additionalConstraints as $additionalConstraint) {
                         $constraints[] = $query->logicalNot($query->logicalAnd($additionalConstraint));
                     }
                     break;
                 case 'notor':
+                    /** @var ConstraintInterface $additionalConstraint */
                     foreach ($additionalConstraints as $additionalConstraint) {
                         $constraints[] = $query->logicalNot($query->logicalOr($additionalConstraint));
                     }
                     break;
                 default:
-                    $constraints[] = $query->logicalAnd($additionalConstraints);
+                    $constraints[] = $query->logicalAnd(...$additionalConstraints);
             }
         }
     }
